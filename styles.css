@@ -242,11 +242,24 @@ button {
     min-width: 150px;
 }
 
+.merch-button.denied {
+    background: linear-gradient(45deg, #8b3030, #a04040);
+    box-shadow: 
+        0 0 20px rgba(139, 48, 48, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
 .merch-button:hover {
     transform: scale(1.05);
     box-shadow: 
         0 0 40px rgba(255, 0, 255, 0.8),
         inset 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.merch-button.denied:hover {
+    box-shadow: 
+        0 0 40px rgba(139, 48, 48, 0.8),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .merch-button::before {
@@ -273,6 +286,15 @@ button {
     font-size: 2rem;
     color: #00ffff;
     text-shadow: 0 0 10px #00ffff;
+}
+
+.merch-button.denied .button-glitch {
+    color: #ff6666;
+    text-shadow: 0 0 10px #ff6666;
+}
+
+.merch-button.transitioning {
+    animation: state-glitch 0.2s ease;
 }
 
 .merch-button:hover .button-glitch {
@@ -387,6 +409,25 @@ button {
     100% {
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+@keyframes state-glitch {
+    0%, 100% {
+        transform: scale(1);
+        filter: blur(0);
+    }
+    25% {
+        transform: scale(1.02) translateX(-2px);
+        filter: blur(1px);
+    }
+    50% {
+        transform: scale(0.98) translateX(2px);
+        filter: blur(2px);
+    }
+    75% {
+        transform: scale(1.01) translateX(-1px);
+        filter: blur(1px);
     }
 }
 

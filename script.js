@@ -120,15 +120,65 @@ glitchTitle.addEventListener('mouseleave', stopGlitch);
 
 // Merch button functionality
 const merchButton = document.querySelector('.merch-button');
-merchButton.addEventListener('click', () => {
+const buttonText = document.querySelector('.button-text');
+
+// Button oscillation effect
+let isGranted = true;
+let oscillateTimeout;
+
+function oscillateButton() {
+    // Random interval between 3 and 20 seconds
+    const randomDelay = Math.random() * 17000 + 3000;
+    
+    oscillateTimeout = setTimeout(() => {
+        // Add glitch effect during transition
+        merchButton.classList.add('transitioning');
+        
+        setTimeout(() => {
+            isGranted = !isGranted;
+            
+            if (isGranted) {
+                buttonText.textContent = 'ACCESS GRANTED';
+                merchButton.classList.remove('denied');
+            } else {
+                buttonText.textContent = 'ACCESS DENIED';
+                merchButton.classList.add('denied');
+            }
+            
+            merchButton.classList.remove('transitioning');
+        }, 100);
+        
+        // Continue oscillating
+        oscillateButton();
+    }, randomDelay);
+}
+
+// Start oscillation
+oscillateButton();
+
+// Button click - always navigates regardless of state
+merchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    
     // Add glitch effect
     merchButton.classList.add('glitching');
     
-    // Show alert or redirect to merch store
+    // Clear oscillation
+    clearTimeout(oscillateTimeout);
+    
+    // Brief delay for effect then navigate
     setTimeout(() => {
-        alert('AI HACKING GEAR COMING SOON\n\nNeural networks are being trained...');
-        merchButton.classList.remove('glitching');
-    }, 500);
+        window.location.href = 'https://vibehacker.printify.me';
+    }, 300);
+});
+
+// Pause oscillation on hover for better UX
+merchButton.addEventListener('mouseenter', () => {
+    clearTimeout(oscillateTimeout);
+});
+
+merchButton.addEventListener('mouseleave', () => {
+    oscillateButton();
 });
 
 // Add random screen glitches
